@@ -354,6 +354,505 @@ footer {
           <div class="perk-dot navy">
             <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3 5.5L6.5 2" stroke="#C9A227" stroke-width="1.2" stroke-linecap="round"/></svg>
           </div>
+          <span>Keep 70% of every sale — vs the industry standard 30%</span>
+        </div>
+        <div class="perk">
+          <div class="perk-dot navy">
+            <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3 5.5L6.5 2" stroke="#C9A227" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span>Direct access to 5.5 million UK SMEs</span>
+        </div>
+        <div class="perk">
+          <div class="perk-dot navy">
+            <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3 5.5L6.5 2" stroke="#C9A227" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span>No exclusivity required — list anywhere else too</span>
+        </div>
+        <div class="perk">
+          <div class="perk-dot navy">
+            <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3 5.5L6.5 2" stroke="#C9A227" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span>Webinar launch support included at no extra cost</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <input type="email" class="form-input" id="vendor-email" placeholder="you@yourproduct.com">
+        <button class="form-btn navy" onclick="submitForm('vendor')">Apply to list</button>
+      </div>
+      <p class="form-note">We review every application. You will hear back within 48 hours.</p>
+      <div class="success-msg" id="vendor-success">
+        Application received. Our team will be in touch within 48 hours.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY DIFFERENT -->
+<section class="why" id="why">
+  <div class="why-inner">
+    <div class="sec-head">
+      <h2 class="sec-title">Why DealsBuzz is different</h2>
+    </div>
+    <div class="why-grid">
+      <div>
+        <p class="step-num">01</p>
+        <p class="step-title">Every vendor is vetted</p>
+        <p class="step-desc">Our sustainability scorecard checks financial health, uptime history, customer base size, and founder commitment. Minimum 70 out of 100 before any deal goes live.</p>
+      </div>
+      <div>
+        <p class="step-num">02</p>
+        <p class="step-title">Vendors keep 70%</p>
+        <p class="step-desc">Most deal platforms take up to 70% from vendors, leaving them with just 30%. That model kills products. We flip it — vendors keep 70%, we take 30%. Healthy vendors build better software.</p>
+      </div>
+      <div>
+        <p class="step-num">03</p>
+        <p class="step-title">Built for UK startups</p>
+        <p class="step-desc">Sterling pricing, UK support hours, and a community built around the 5.5 million small businesses across Britain. No FX fees, no dollar confusion.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div class="proof">
+  <div class="proof-inner">
+    <div class="proof-item">
+      <div class="proof-num">70%</div>
+      <div class="proof-lbl">Revenue kept<br>by every vendor</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">5.5M</div>
+      <div class="proof-lbl">UK SMEs in<br>our target market</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">70/100</div>
+      <div class="proof-lbl">Minimum vendor<br>sustainability score</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-num">30%</div>
+      <div class="proof-lbl">Our fee — the lowest<br>in the market</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust">
+  <span class="trust-item"><span class="trust-dot"></span>Vendor Protection Fund</span>
+  
+  <span class="trust-item"><span class="trust-dot"></span>Sterling pricing, no FX fees</span>
+  <span class="trust-item"><span class="trust-dot"></span>UK-based support</span>
+  <span class="trust-item"><span class="trust-dot"></span>70/100 minimum vendor score</span>
+  <span class="trust-item"><span class="trust-dot"></span>No exclusivity required</span>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">
+        <div class="logo-mark" style="width:22px;height:22px;border-radius:5px">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+            <path d="M9.5 1L4 9.5L8 9.5L6.5 15L13 6.5L9 6.5Z" fill="#C9A227"/>
+          </svg>
+        </div>
+        <span style="font-size:13px;font-weight:500">DealsBuzz</span>
+      </div>
+      <p class="footer-tagline">Where UK startups find software deals that last.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#why">Why DealsBuzz</a>
+      <a href="#vendors">For vendors</a>
+      <a href="#signup">Join waitlist</a>
+      <a href="/cdn-cgi/l/email-protection#cebdbbbebea1bcba8eaaabafa2bdacbbb4b4e0ada1e0bba5">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 DealsBuzz. All rights reserved.</p>
+    <p>dealsbuzz.co.uk &mdash; UK Software Deals</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function submitForm(type) {
+  const emailInput = document.getElementById(type + '-email');
+  const successMsg = document.getElementById(type + '-success');
+  const email = emailInput.value.trim();
+
+  if (!email || !email.includes('@')) {
+    emailInput.style.borderColor = '#E24B4A';
+    emailInput.focus();
+    setTimeout(() => emailInput.style.borderColor = '', 2000);
+    return;
+  }
+
+  // TODO: Replace this with your ConvertKit form action URL
+  // For ConvertKit: fetch('https://app.convertkit.com/forms/YOUR_FORM_ID/subscriptions', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({ email_address: email, tags: [type === 'vendor' ? 'vendor' : 'customer'] })
+  // })
+
+  // For now — log and show success
+  console.log(type + ' signup:', email);
+  emailInput.value = '';
+  emailInput.style.borderColor = '#B7DFC8';
+  successMsg.classList.add('show');
+}
+
+// Allow Enter key on inputs
+document.getElementById('customer-email').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') submitForm('customer');
+});
+document.getElementById('vendor-email').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') submitForm('vendor');
+});
+</script>
+
+<!--
+==============================================
+HOW TO DEPLOY TO VERCEL (5 minutes)
+==============================================
+
+OPTION A — Drag and drop (easiest, no code needed):
+1. Go to vercel.com and sign up with GitHub
+2. Click "Add New Project"
+3. Drag this HTML file into the deploy area
+4. Vercel gives you a URL instantly (e.g. dealsbuzz.vercel.app)
+
+OPTION B — Connect your domain (dealsbuzz.co.uk):
+1. Deploy via Option A first
+2. In Vercel dashboard, go to Settings > Domains
+3. Add dealsbuzz.co.uk
+4. Vercel shows you two DNS records to add
+5. Log into Namecheap > Domain List > Manage > Advanced DNS
+6. Add the two records Vercel gives you
+7. Wait 10-30 minutes — site is live at dealsbuzz.co.uk
+
+CONNECT CONVERTKIT (to actually capture emails):
+1. Sign up at convertkit.com (free up to 1,000 subscribers)
+2. Create two forms — "Customer Waitlist" and "Vendor Waitlist"
+3. Get the Form ID from each form URL
+.nav-brand { display: flex; align-items: center; gap: 9px; }
+.logo-mark {
+  width: 28px; height: 28px; background: var(--navy);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+}
+.brand-name { font-size: 15px; font-weight: 500; letter-spacing: -0.02em; }
+.nav-right { display: flex; align-items: center; gap: 1.5rem; }
+.nav-link { font-size: 13px; color: var(--muted); }
+.nav-link:hover { color: var(--text); }
+.nav-cta {
+  background: var(--navy); color: var(--white);
+  font-size: 13px; font-weight: 500;
+  padding: .45rem 1rem; border-radius: 6px;
+}
+
+/* HERO */
+.hero {
+  padding: 6rem 2.5rem 5rem;
+  border-bottom: 1px solid var(--border);
+  max-width: 1100px; margin: 0 auto;
+}
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: 100px; padding: .25rem .875rem;
+  font-size: 11px; color: var(--muted); letter-spacing: .03em;
+  margin-bottom: 2rem;
+}
+.pill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+.hero h1 {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 68px; line-height: 1.02; letter-spacing: -0.03em;
+  font-weight: 500; max-width: 680px;
+  margin-bottom: 1.5rem; color: var(--text);
+}
+.hero p {
+  font-size: 16px; color: var(--muted);
+  max-width: 480px; line-height: 1.75;
+  margin-bottom: 3rem; font-weight: 300;
+}
+.hero-stats {
+  display: flex; gap: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  margin-top: 1rem;
+}
+.stat-num { font-size: 26px; font-weight: 500; letter-spacing: -0.03em; }
+.stat-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* SIGNUP SECTION */
+.signup-section {
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+}
+.signup-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 4rem 2.5rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+}
+.signup-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 2rem;
+}
+.signup-card.vendor { border-top: 3px solid var(--navy); }
+.signup-card.customer { border-top: 3px solid var(--gold); }
+.card-eyebrow {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .08em; color: var(--muted);
+  margin-bottom: .75rem;
+}
+.signup-card h3 {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 26px; font-weight: 500;
+  letter-spacing: -0.02em; margin-bottom: .5rem;
+}
+.signup-card p {
+  font-size: 13px; color: var(--muted);
+  line-height: 1.65; margin-bottom: 1.5rem;
+}
+.perks { margin-bottom: 1.75rem; }
+.perk {
+  display: flex; align-items: flex-start; gap: .625rem;
+  font-size: 12px; color: var(--muted);
+  margin-bottom: .5rem; line-height: 1.5;
+}
+.perk-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+}
+.perk-dot.navy { background: var(--navy); }
+.perk-dot.gold { background: var(--gold); }
+.perk-dot svg { width: 8px; height: 8px; }
+
+/* FORM */
+.form-row { display: flex; gap: .5rem; margin-bottom: .75rem; }
+.form-input {
+  flex: 1; height: 42px;
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 0 .875rem; font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--white); color: var(--text);
+  outline: none; transition: border-color .15s;
+}
+.form-input:focus { border-color: var(--navy); }
+.form-input::placeholder { color: #B0ADA8; }
+.form-btn {
+  height: 42px; padding: 0 1.25rem;
+  border: none; border-radius: 6px;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+  transition: opacity .15s;
+}
+.form-btn:hover { opacity: .85; }
+.form-btn.navy { background: var(--navy); color: var(--white); }
+.form-btn.gold { background: var(--gold); color: var(--navy); }
+.form-note { font-size: 11px; color: var(--muted); }
+.success-msg {
+  display: none; background: var(--success-bg);
+  border: 1px solid #B7DFC8; border-radius: 6px;
+  padding: .75rem 1rem; font-size: 13px;
+  color: var(--success); margin-top: .75rem;
+}
+.success-msg.show { display: block; }
+
+/* SPLIT */
+.split { display: flex; border-bottom: 1px solid var(--border); }
+.split-vendor { flex: 7; background: var(--navy); padding: 2.5rem; }
+.split-us { flex: 3; background: var(--gold); padding: 2.5rem 2rem; }
+.split-pct {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 58px; font-weight: 500;
+  line-height: 1; letter-spacing: -0.04em; color: var(--white);
+}
+.split-lbl { font-size: 10px; color: rgba(255,255,255,.45); letter-spacing: .06em; margin-top: 4px; }
+.split-desc { font-size: 12px; color: rgba(255,255,255,.55); margin-top: 1rem; line-height: 1.7; max-width: 400px; }
+.split-pct-b {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 58px; font-weight: 500;
+  line-height: 1; letter-spacing: -0.04em; color: var(--navy);
+}
+.split-lbl-b { font-size: 10px; color: rgba(11,29,58,.4); letter-spacing: .06em; margin-top: 4px; }
+.split-desc-b { font-size: 12px; color: rgba(11,29,58,.55); margin-top: 1rem; line-height: 1.7; }
+
+/* WHY */
+.why { border-bottom: 1px solid var(--border); }
+.why-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 4rem 2.5rem;
+}
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 2rem; }
+.sec-title { font-size: 18px; font-weight: 500; letter-spacing: -0.02em; }
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+.step-num { font-size: 11px; color: var(--muted); letter-spacing: .06em; margin-bottom: .5rem; }
+.step-title { font-size: 14px; font-weight: 500; margin-bottom: .4rem; }
+.step-desc { font-size: 12px; color: var(--muted); line-height: 1.75; }
+
+/* SOCIAL PROOF */
+.proof { border-bottom: 1px solid var(--border); }
+.proof-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 3rem 2.5rem;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--border);
+}
+.proof-item {
+  background: var(--white); padding: 2rem 1.5rem;
+  text-align: center;
+}
+.proof-num { font-size: 28px; font-weight: 500; letter-spacing: -0.03em; margin-bottom: .25rem; }
+.proof-lbl { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+/* TRUST BAR */
+.trust {
+  padding: 1.25rem 2.5rem;
+  display: flex; gap: 2rem; align-items: center;
+  flex-wrap: wrap; border-bottom: 1px solid var(--border);
+}
+.trust-item { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.trust-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); }
+
+/* FOOTER */
+footer {
+  padding: 2.5rem; border-top: 1px solid var(--border);
+  background: var(--cream);
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-brand { display: flex; align-items: center; gap: 8px; margin-bottom: .4rem; }
+.footer-tagline { font-size: 11px; color: var(--muted); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { font-size: 12px; color: var(--muted); }
+.footer-links a:hover { color: var(--text); }
+.footer-bottom {
+  max-width: 1100px; margin: 1.5rem auto 0;
+  padding-top: 1.25rem; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between;
+}
+.footer-bottom p { font-size: 11px; color: var(--muted); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 42px; }
+  .signup-inner { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .proof-inner { grid-template-columns: repeat(2, 1fr); }
+  .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+  nav .nav-right { display: none; }
+  .split-pct, .split-pct-b { font-size: 40px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="logo-mark">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M9.5 1L4 9.5L8 9.5L6.5 15L13 6.5L9 6.5Z" fill="#C9A227"/>
+      </svg>
+    </div>
+    <span class="brand-name">DealsBuzz</span>
+  </div>
+  <div class="nav-right">
+    <a href="#why" class="nav-link">Why DealsBuzz</a>
+    <a href="#vendors" class="nav-link">For vendors</a>
+    <a href="#signup" class="nav-cta">Join the waitlist</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pill">
+    <span class="pill-dot"></span>
+    Now accepting waitlist signups
+  </div>
+  <h1>Software deals<br>that actually last.</h1>
+  <p>The only UK deals marketplace that vets every vendor for long-term viability. No more buying tools that vanish in six months.</p>
+  <div class="hero-stats">
+    <div><div class="stat-num">70%</div><div class="stat-lbl">Vendors keep</div></div>
+    <div><div class="stat-num">70/100</div><div class="stat-lbl">Min. vendor score</div></div>
+    <div><div class="stat-num">5.5M</div><div class="stat-lbl">UK SMEs</div></div>
+    <div><div class="stat-num">&pound;0</div><div class="stat-lbl">FX fees, ever</div></div>
+  </div>
+</section>
+
+<!-- 70/30 SPLIT -->
+<div class="split">
+  <div class="split-vendor">
+    <div class="split-pct">70%</div>
+    <div class="split-lbl">VENDOR REVENUE</div>
+    <p class="split-desc">Vendors keep what they earn. Sustainable economics mean the tools you buy today keep running two years from now. AppSumo takes 70% from vendors. We take 30%.</p>
+  </div>
+  <div class="split-us">
+    <div class="split-pct-b">30%</div>
+    <div class="split-lbl-b">DEALSBUZZ FEE</div>
+    <p class="split-desc-b">Our only take. No hidden charges, no surprises at checkout.</p>
+  </div>
+</div>
+
+<!-- SIGNUP -->
+<section class="signup-section" id="signup">
+  <div class="signup-inner">
+
+    <!-- CUSTOMER SIGNUP -->
+    <div class="signup-card customer">
+      <p class="card-eyebrow">FOR UK STARTUPS</p>
+      <h3>Get early access to deals</h3>
+      <p>Be first to know when we launch. Early subscribers get exclusive pricing and first access to every new deal.</p>
+      <div class="perks">
+        <div class="perk">
+          <div class="perk-dot gold">
+            <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3 5.5L6.5 2" stroke="#0B1D3A" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span>Early access to every new deal before public launch</span>
+        </div>
+        <div class="perk">
+          <div class="perk-dot gold">
+            <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3 5.5L6.5 2" stroke="#0B1D3A" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span>Sterling pricing — no FX fees, no dollar conversions</span>
+        </div>
+        <div class="perk">
+          <div class="perk-dot gold">
+            <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3 5.5L6.5 2" stroke="#0B1D3A" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span>Vendor Protection Fund — 50% refund if tool shuts down</span>
+        </div>
+        <div class="perk">
+          <div class="perk-dot gold">
+            <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3 5.5L6.5 2" stroke="#0B1D3A" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span>Every vendor scored 70/100 minimum before listing</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <input type="email" class="form-input" id="customer-email" placeholder="your@email.com">
+        <button class="form-btn gold" onclick="submitForm('customer')">Join waitlist</button>
+      </div>
+      <p class="form-note">No spam. Unsubscribe anytime. UK startups only.</p>
+      <div class="success-msg" id="customer-success">
+        You are on the list. We will be in touch before launch day.
+      </div>
+    </div>
+
+    <!-- VENDOR SIGNUP -->
+    <div class="signup-card vendor" id="vendors">
+      <p class="card-eyebrow">FOR SOFTWARE VENDORS</p>
+      <h3>List your product, keep 70%</h3>
+      <p>Reach thousands of UK startups and keep more of what you earn. We only take 30% — the most vendor-friendly split in the market.</p>
+      <div class="perks">
+        <div class="perk">
+          <div class="perk-dot navy">
+            <svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4L3 5.5L6.5 2" stroke="#C9A227" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
           <span>Keep 70% of every sale — vs AppSumo's 30%</span>
         </div>
         <div class="perk">
