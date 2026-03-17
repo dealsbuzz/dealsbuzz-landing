@@ -474,9 +474,15 @@ footer {
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-function submitForm(type) {
+const FORM_IDS = {
+  customer: '9217174',
+  vendor: '9217187'
+};
+
+async function submitForm(type) {
   const emailInput = document.getElementById(type + '-email');
   const successMsg = document.getElementById(type + '-success');
+  const btn = emailInput.nextElementSibling;
   const email = emailInput.value.trim();
 
   if (!email || !email.includes('@')) {
@@ -486,18 +492,37 @@ function submitForm(type) {
     return;
   }
 
-  // TODO: Replace this with your ConvertKit form action URL
-  // For ConvertKit: fetch('https://app.convertkit.com/forms/YOUR_FORM_ID/subscriptions', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({ email_address: email, tags: [type === 'vendor' ? 'vendor' : 'customer'] })
-  // })
+  btn.textContent = 'Submitting...';
+  btn.disabled = true;
 
-  // For now — log and show success
-  console.log(type + ' signup:', email);
-  emailInput.value = '';
-  emailInput.style.borderColor = '#B7DFC8';
-  successMsg.classList.add('show');
+  try {
+    const response = await fetch(
+      `https://app.convertkit.com/forms/${FORM_IDS[type]}/subscriptions`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify({ email_address: email })
+      }
+    );
+
+    if (response.ok || response.status === 200) {
+      emailInput.value = '';
+      emailInput.style.borderColor = '#B7DFC8';
+      successMsg.classList.add('show');
+      btn.textContent = type === 'vendor' ? 'Apply to list' : 'Join waitlist';
+      btn.disabled = false;
+    } else {
+      throw new Error('Server error');
+    }
+  } catch (err) {
+    emailInput.style.borderColor = '#E24B4A';
+    btn.textContent = 'Try again';
+    btn.disabled = false;
+    setTimeout(() => {
+      emailInput.style.borderColor = '';
+      btn.textContent = type === 'vendor' ? 'Apply to list' : 'Join waitlist';
+    }, 3000);
+  }
 }
 
 // Allow Enter key on inputs
