@@ -392,7 +392,7 @@ footer {
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9AA0A6" stroke-width="2">
       <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
     </svg>
-    <input class="nav-search-input" placeholder="🔍 Search deals — launching soon" readonly style="cursor:pointer;" onclick="document.getElementById('hero-email').focus();document.getElementById('signup').scrollIntoView({behavior:'smooth'});">
+    <input class="nav-search-input" placeholder="🔍 Search deals — launching soon" readonly style="cursor:pointer;" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'});">
   </div>
 
   <div class="nav-right">
@@ -402,7 +402,7 @@ footer {
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       @dealsbuzzuk
     </a>
-    <button class="nav-cta" onclick="document.getElementById('hero-email').focus()">Join waitlist</button>
+    <button class="nav-cta" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">Join waitlist</button>
   </div>
 </nav>
 
@@ -414,14 +414,18 @@ footer {
   </div>
   <h1>Software deals for UK startups that <em>actually last.</em></h1>
   <p>Every vendor is sustainability-vetted before listing. No more buying tools that vanish in six months. Curated. Trusted. UK-focused.</p>
-  <div class="hero-form">
-    <input class="hero-input" id="hero-email" type="email" placeholder="your@email.com">
-    <button class="hero-btn" id="hero-btn" onclick="submitForm('customer', 'hero')">Join the waitlist</button>
-  </div>
+
+  <!-- Kit customer form — styled to match -->
+  <form action="https://app.kit.com/forms/9217174/subscriptions"
+        method="POST"
+        data-sv-form="9217174"
+        data-uid="5926a3ce30"
+        data-version="5"
+        class="hero-form db-kit-form">
+    <input class="hero-input" name="email_address" type="email" placeholder="your@email.com" required>
+    <button type="submit" class="hero-btn">Join the waitlist</button>
+  </form>
   <p class="hero-note">No spam. Unsubscribe anytime. UK startups only.</p>
-  <div class="form-success" id="hero-success">
-    You're on the list! 🎉 Hold tight — keep an eye on your inbox. We'll reach out before launch day.
-  </div>
 </section>
 
 <!-- TRUST BAR -->
@@ -586,12 +590,16 @@ footer {
           <span>Every vendor scored 70/100 minimum before listing</span>
         </div>
       </div>
-      <div class="form-row">
-        <input type="email" class="form-input" id="customer-email" placeholder="your@email.com">
-        <button class="form-btn orange" id="customer-btn" onclick="submitForm('customer', 'customer')">Join waitlist</button>
-      </div>
+      <form action="https://app.kit.com/forms/9217174/subscriptions"
+            method="POST"
+            data-sv-form="9217174"
+            data-uid="5926a3ce30"
+            data-version="5"
+            class="form-row db-kit-form">
+        <input type="email" name="email_address" class="form-input" placeholder="your@email.com" required>
+        <button type="submit" class="form-btn orange">Join waitlist</button>
+      </form>
       <p class="form-note">No spam. Unsubscribe anytime.</p>
-      <div class="form-success-sm" id="customer-success">You're on the list! 🎉 Hold tight — keep an eye on your inbox. We'll reach out before launch day.</div>
     </div>
 
     <!-- VENDOR SIGNUP -->
@@ -617,12 +625,13 @@ footer {
           <span>Webinar launch support included at no extra cost</span>
         </div>
       </div>
-      <div class="form-row">
-        <input type="email" class="form-input" id="vendor-email" placeholder="you@yourproduct.com">
-        <button class="form-btn orange" id="vendor-btn" onclick="submitForm('vendor', 'vendor')">Apply to list</button>
-      </div>
+      <form action="https://app.kit.com/forms/9217187/subscriptions"
+            method="POST"
+            class="form-row db-kit-form">
+        <input type="email" name="email_address" class="form-input" placeholder="you@yourproduct.com" required>
+        <button type="submit" class="form-btn orange">Apply to list</button>
+      </form>
       <p class="form-note">We review every application. You'll hear back within 48 hours.</p>
-      <div class="form-success-sm" id="vendor-success">Application received! 🙌 Hold tight — we review every application and will be in touch within 48 hours.</div>
     </div>
 
   </div>
@@ -655,92 +664,9 @@ footer {
   </div>
 </footer>
 
+<!-- Kit's own script handles all form submissions -->
+<script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
 <script>
-const FORM_IDS = {
-  customer: '9217174',
-  vendor: '9217187'
-};
-
-function submitForm(type, source) {
-  const emailId   = source === 'hero' ? 'hero-email'   : type + '-email';
-  const btnId     = source === 'hero' ? 'hero-btn'     : type + '-btn';
-  const successId = source === 'hero' ? 'hero-success' : type + '-success';
-
-  const emailInput = document.getElementById(emailId);
-  const btn        = document.getElementById(btnId);
-  const successEl  = document.getElementById(successId);
-
-  if (!emailInput || !btn || !successEl) {
-    console.error('Could not find elements:', emailId, btnId, successId);
-    return;
-  }
-
-  const email = emailInput.value.trim();
-  console.log('Submitting email:', email, 'type:', type);
-
-  if (!email || !email.includes('@') || !email.includes('.')) {
-    emailInput.style.borderColor = '#E24B4A';
-    emailInput.focus();
-    setTimeout(() => emailInput.style.borderColor = '', 2000);
-    return;
-  }
-
-  const origText = btn.textContent;
-  btn.textContent = 'Submitting...';
-  btn.disabled = true;
-
-  // Create unique iframe name
-  const uid = 'kit_' + Date.now();
-
-  // Create hidden iframe FIRST and wait for its initial load
-  const iframe = document.createElement('iframe');
-  iframe.name = uid;
-  iframe.style.cssText = 'display:none;width:0;height:0;border:0;';
-  document.body.appendChild(iframe);
-
-  // Create and submit form into iframe
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = 'https://app.kit.com/forms/' + FORM_IDS[type] + '/subscriptions';
-  form.target = uid;
-  form.style.cssText = 'display:none;';
-
-  const f1 = document.createElement('input');
-  f1.type = 'hidden'; f1.name = 'email_address'; f1.value = email;
-  form.appendChild(f1);
-
-  document.body.appendChild(form);
-
-  // Submit after brief delay so iframe is ready
-  setTimeout(function() {
-    form.submit();
-    console.log('Form submitted to:', form.action);
-
-    // Show success after 1.5s — enough time for the POST to go through
-    setTimeout(function() {
-      emailInput.value = '';
-      emailInput.style.borderColor = '#B7DFC8';
-      successEl.classList.add('show');
-      btn.textContent = origText;
-      btn.disabled = false;
-      // Clean up
-      try { document.body.removeChild(form); } catch(e) {}
-      try { document.body.removeChild(iframe); } catch(e) {}
-    }, 1500);
-  }, 100);
-}
-
-// Enter key support
-document.getElementById('hero-email').addEventListener('keypress', e => {
-  if (e.key === 'Enter') submitForm('customer', 'hero');
-});
-document.getElementById('customer-email').addEventListener('keypress', e => {
-  if (e.key === 'Enter') submitForm('customer', 'customer');
-});
-document.getElementById('vendor-email').addEventListener('keypress', e => {
-  if (e.key === 'Enter') submitForm('vendor', 'vendor');
-});
-
 // Pill click handler
 document.querySelectorAll('.pill').forEach(pill => {
   pill.addEventListener('click', () => {
@@ -748,6 +674,27 @@ document.querySelectorAll('.pill').forEach(pill => {
     pill.classList.add('active');
   });
 });
+
+// Nav scroll to signup
+document.querySelector('.nav-cta').addEventListener('click', () => {
+  document.getElementById('signup').scrollIntoView({behavior:'smooth'});
+});
 </script>
+<style>
+/* Hide Kit branding and override Kit's default styles */
+.formkit-powered-by-convertkit-container { display: none !important; }
+.db-kit-form .formkit-alert-success {
+  background: #EAF5EE; border: 1px solid #B7DFC8;
+  border-radius: 6px; padding: .75rem 1rem;
+  font-size: 13px; color: #2D7A4F;
+  margin-top: .75rem; list-style: none;
+}
+.db-kit-form .formkit-alert-error {
+  background: #FDE8E2; border: 1px solid #F2643B;
+  border-radius: 6px; padding: .75rem 1rem;
+  font-size: 13px; color: #EA4110;
+  margin-top: .75rem; list-style: none;
+}
+</style>
 </body>
 </html>
