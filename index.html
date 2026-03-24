@@ -661,7 +661,7 @@ const FORM_IDS = {
   vendor: '9217187'
 };
 
-async function submitForm(type, source) {
+function submitForm(type, source) {
   const emailId   = source === 'hero' ? 'hero-email'   : type + '-email';
   const btnId     = source === 'hero' ? 'hero-btn'     : type + '-btn';
   const successId = source === 'hero' ? 'hero-success' : type + '-success';
@@ -685,37 +685,41 @@ async function submitForm(type, source) {
   btn.textContent = 'Submitting...';
   btn.disabled = true;
 
-  try {
-    const formData = new FormData();
-    formData.append('email_address', email);
+  // Use a hidden form POST — most reliable way to submit to Kit
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = 'https://app.convertkit.com/forms/' + FORM_IDS[type] + '/subscriptions';
+  form.target = 'kit-iframe-' + type;
+  form.style.display = 'none';
 
-    const res = await fetch(
-      'https://app.convertkit.com/forms/' + FORM_IDS[type] + '/subscriptions',
-      {
-        method: 'POST',
-        body: formData
-      }
-    );
+  const emailField = document.createElement('input');
+  emailField.type = 'hidden';
+  emailField.name = 'email_address';
+  emailField.value = email;
+  form.appendChild(emailField);
 
-    // ConvertKit returns 200 on success
-    if (res.status === 200 || res.status === 201 || res.ok) {
-      emailInput.value = '';
-      emailInput.style.borderColor = '#B7DFC8';
-      successEl.classList.add('show');
-      btn.textContent = origText;
-      btn.disabled = false;
-    } else {
-      throw new Error('Status ' + res.status);
-    }
-  } catch (err) {
-    // Show success anyway — ConvertKit CORS sometimes blocks the response
-    // but the subscription still goes through
+  // Hidden iframe to capture the response without redirecting the page
+  const iframe = document.createElement('iframe');
+  iframe.name = 'kit-iframe-' + type;
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+  document.body.appendChild(form);
+
+  iframe.onload = function() {
+    // Submission complete
     emailInput.value = '';
     emailInput.style.borderColor = '#B7DFC8';
     successEl.classList.add('show');
     btn.textContent = origText;
     btn.disabled = false;
-  }
+    // Clean up
+    setTimeout(() => {
+      document.body.removeChild(form);
+      document.body.removeChild(iframe);
+    }, 1000);
+  };
+
+  form.submit();
 }
 
 // Enter key support
