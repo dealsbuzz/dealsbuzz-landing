@@ -3,13 +3,8 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { email, formId } = req.body;
 
@@ -22,32 +17,36 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid form ID' });
   }
 
-  try {
-    // Kit expects application/x-www-form-urlencoded
-    const params = new URLSearchParams();
-    params.append('email_address', email);
+  const apiKey = process.env.KIT_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: 'API key not configured' });
+  }
 
+  try {
+    // Kit v3 API — subscribe email to a form
     const response = await fetch(
-      `https://app.kit.com/forms/${formId}/subscriptions`,
+      `https://api.convertkit.com/v3/forms/${formId}/subscribe`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: params.toString()
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          api_key: apiKey,
+          email: email
+        })
       }
     );
 
-    const text = await response.text();
-    console.log('Kit status:', response.status);
-    console.log('Kit response:', text);
+    const data = await response.json();
+    console.log('Kit v3 response:', JSON.stringify(data));
 
-    if (response.status === 200 || response.status === 201) {
+    if (data.subscription || data.subscriber) {
       return res.status(200).json({ success: true });
     } else {
-      return res.status(200).json({ error: 'Kit error', status: response.status, detail: text });
+      return res.status(200).json({ error: 'Kit error', detail: data });
     }
 
   } catch (err) {
-    console.error('Proxy error:', err.message);
+    console.error('Error:', err.message);
     return res.status(500).json({ error: 'Server error', detail: err.message });
   }
 }
