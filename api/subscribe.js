@@ -1,6 +1,5 @@
 export default async function handler(req, res) {
-  // Allow CORS from our own domain
-  res.setHeader('Access-Control-Allow-Origin', 'https://dealsbuzz.co.uk');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -19,30 +18,36 @@ export default async function handler(req, res) {
   }
 
   const VALID_FORM_IDS = ['9217174', '9217187'];
-  if (!VALID_FORM_IDS.includes(formId)) {
+  if (!VALID_FORM_IDS.includes(String(formId))) {
     return res.status(400).json({ error: 'Invalid form ID' });
   }
 
   try {
+    // Kit expects application/x-www-form-urlencoded
+    const params = new URLSearchParams();
+    params.append('email_address', email);
+
     const response = await fetch(
       `https://app.kit.com/forms/${formId}/subscriptions`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email_address: email })
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
       }
     );
 
-    const data = await response.json();
+    const text = await response.text();
+    console.log('Kit status:', response.status);
+    console.log('Kit response:', text);
 
-    if (response.ok) {
+    if (response.status === 200 || response.status === 201) {
       return res.status(200).json({ success: true });
     } else {
-      console.error('Kit error:', data);
-      return res.status(response.status).json({ error: 'Kit error', detail: data });
+      return res.status(200).json({ error: 'Kit error', status: response.status, detail: text });
     }
+
   } catch (err) {
-    console.error('Proxy error:', err);
-    return res.status(500).json({ error: 'Server error' });
+    console.error('Proxy error:', err.message);
+    return res.status(500).json({ error: 'Server error', detail: err.message });
   }
 }
