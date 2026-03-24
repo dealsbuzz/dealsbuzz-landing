@@ -664,13 +664,12 @@ footer {
 
 <script>
 function submitForm(type, source) {
-  var inputs = {
-    'hero':     { email: 'hero-email',     btn: 'hero-btn',     success: 'hero-success',     form: '9217174' },
-    'customer': { email: 'customer-email', btn: 'customer-btn', success: 'customer-success', form: '9217174' },
-    'vendor':   { email: 'vendor-email',   btn: 'vendor-btn',   success: 'vendor-success',   form: '9217187' }
-  };
+  var cfg = {
+    'hero':     { email: 'hero-email',     btn: 'hero-btn',     success: 'hero-success',     id: '9217174' },
+    'customer': { email: 'customer-email', btn: 'customer-btn', success: 'customer-success', id: '9217174' },
+    'vendor':   { email: 'vendor-email',   btn: 'vendor-btn',   success: 'vendor-success',   id: '9217187' }
+  }[source];
 
-  var cfg = inputs[source];
   var emailEl   = document.getElementById(cfg.email);
   var btnEl     = document.getElementById(cfg.btn);
   var successEl = document.getElementById(cfg.success);
@@ -686,34 +685,27 @@ function submitForm(type, source) {
   btnEl.textContent = 'Submitting...';
   btnEl.disabled = true;
 
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'https://app.kit.com/forms/' + cfg.form + '/subscriptions', true);
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4) {
-      // Show success regardless — Kit blocks CORS response but submission goes through
-      emailEl.value = '';
-      emailEl.style.borderColor = '#B7DFC8';
-      successEl.style.display = 'block';
-      btnEl.textContent = orig;
-      btnEl.disabled = false;
-    }
-  };
-
-  xhr.onerror = function() {
-    // Same — show success, the POST went through even if response blocked
+  // no-cors bypasses CORS — request goes through, response unreadable (that's fine)
+  fetch('https://app.kit.com/forms/' + cfg.id + '/subscriptions', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'email_address=' + encodeURIComponent(email)
+  }).then(function() {
     emailEl.value = '';
     emailEl.style.borderColor = '#B7DFC8';
     successEl.style.display = 'block';
     btnEl.textContent = orig;
     btnEl.disabled = false;
-  };
-
-  xhr.send('email_address=' + encodeURIComponent(email));
+  }).catch(function() {
+    emailEl.value = '';
+    emailEl.style.borderColor = '#B7DFC8';
+    successEl.style.display = 'block';
+    btnEl.textContent = orig;
+    btnEl.disabled = false;
+  });
 }
 
-// Pill click handler
 document.querySelectorAll('.pill').forEach(function(pill) {
   pill.addEventListener('click', function() {
     document.querySelectorAll('.pill').forEach(function(p){ p.classList.remove('active'); });
