@@ -732,3 +732,10 @@ document.getElementById('vendor-email').addEventListener('keypress', e => {
 // Pill click handler
 document.querySelectorAll('.pill').forEach(pill => {
   pill.addEventListener('click', () => {
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
