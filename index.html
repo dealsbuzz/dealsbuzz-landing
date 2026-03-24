@@ -655,7 +655,7 @@ footer {
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 const FORM_IDS = {
   customer: '9217174',
   vendor: '9217187'
@@ -670,9 +670,13 @@ function submitForm(type, source) {
   const btn        = document.getElementById(btnId);
   const successEl  = document.getElementById(successId);
 
-  if (!emailInput || !btn || !successEl) return;
+  if (!emailInput || !btn || !successEl) {
+    console.error('Could not find elements:', emailId, btnId, successId);
+    return;
+  }
 
   const email = emailInput.value.trim();
+  console.log('Submitting email:', email, 'type:', type);
 
   if (!email || !email.includes('@') || !email.includes('.')) {
     emailInput.style.borderColor = '#E24B4A';
@@ -685,39 +689,45 @@ function submitForm(type, source) {
   btn.textContent = 'Submitting...';
   btn.disabled = true;
 
-  // Use hidden iframe POST — correct Kit endpoint
-  const iframeName = 'kit-iframe-' + type + '-' + Date.now();
+  // Create unique iframe name
+  const uid = 'kit_' + Date.now();
+
+  // Create hidden iframe FIRST and wait for its initial load
   const iframe = document.createElement('iframe');
-  iframe.name = iframeName;
-  iframe.style.display = 'none';
+  iframe.name = uid;
+  iframe.style.cssText = 'display:none;width:0;height:0;border:0;';
   document.body.appendChild(iframe);
 
+  // Create and submit form into iframe
   const form = document.createElement('form');
   form.method = 'POST';
   form.action = 'https://app.kit.com/forms/' + FORM_IDS[type] + '/subscriptions';
-  form.target = iframeName;
-  form.style.display = 'none';
+  form.target = uid;
+  form.style.cssText = 'display:none;';
 
-  const emailField = document.createElement('input');
-  emailField.type = 'hidden';
-  emailField.name = 'email_address';
-  emailField.value = email;
-  form.appendChild(emailField);
+  const f1 = document.createElement('input');
+  f1.type = 'hidden'; f1.name = 'email_address'; f1.value = email;
+  form.appendChild(f1);
 
   document.body.appendChild(form);
 
-  iframe.onload = function() {
-    emailInput.value = '';
-    emailInput.style.borderColor = '#B7DFC8';
-    successEl.classList.add('show');
-    btn.textContent = origText;
-    btn.disabled = false;
-    setTimeout(() => {
-      try { document.body.removeChild(form); document.body.removeChild(iframe); } catch(e) {}
-    }, 2000);
-  };
+  // Submit after brief delay so iframe is ready
+  setTimeout(function() {
+    form.submit();
+    console.log('Form submitted to:', form.action);
 
-  form.submit();
+    // Show success after 1.5s — enough time for the POST to go through
+    setTimeout(function() {
+      emailInput.value = '';
+      emailInput.style.borderColor = '#B7DFC8';
+      successEl.classList.add('show');
+      btn.textContent = origText;
+      btn.disabled = false;
+      // Clean up
+      try { document.body.removeChild(form); } catch(e) {}
+      try { document.body.removeChild(iframe); } catch(e) {}
+    }, 1500);
+  }, 100);
 }
 
 // Enter key support
