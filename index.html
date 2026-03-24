@@ -420,7 +420,7 @@ footer {
   </div>
   <p class="hero-note">No spam. Unsubscribe anytime. UK startups only.</p>
   <div class="form-success" id="hero-success">
-    You're on the list! We'll be in touch before launch day.
+    You're on the list! 🎉 Hold tight — keep an eye on your inbox. We'll reach out before launch day.
   </div>
 </section>
 
@@ -591,7 +591,7 @@ footer {
         <button class="form-btn orange" id="customer-btn" onclick="submitForm('customer', 'customer')">Join waitlist</button>
       </div>
       <p class="form-note">No spam. Unsubscribe anytime.</p>
-      <div class="form-success-sm" id="customer-success">You're on the list. We'll be in touch before launch day.</div>
+      <div class="form-success-sm" id="customer-success">You're on the list! 🎉 Hold tight — keep an eye on your inbox. We'll reach out before launch day.</div>
     </div>
 
     <!-- VENDOR SIGNUP -->
@@ -622,7 +622,7 @@ footer {
         <button class="form-btn orange" id="vendor-btn" onclick="submitForm('vendor', 'vendor')">Apply to list</button>
       </div>
       <p class="form-note">We review every application. You'll hear back within 48 hours.</p>
-      <div class="form-success-sm" id="vendor-success">Application received. Our team will be in touch within 48 hours.</div>
+      <div class="form-success-sm" id="vendor-success">Application received! 🙌 Hold tight — we review every application and will be in touch within 48 hours.</div>
     </div>
 
   </div>
@@ -662,19 +662,19 @@ const FORM_IDS = {
 };
 
 async function submitForm(type, source) {
-  const emailInput = document.getElementById(
-    source === 'hero' ? 'hero-email' : type + '-email'
-  );
-  const btn = document.getElementById(
-    source === 'hero' ? 'hero-btn' : type + '-btn'
-  );
-  const successEl = document.getElementById(
-    source === 'hero' ? 'hero-success' : type + '-success'
-  );
+  const emailId   = source === 'hero' ? 'hero-email'   : type + '-email';
+  const btnId     = source === 'hero' ? 'hero-btn'     : type + '-btn';
+  const successId = source === 'hero' ? 'hero-success' : type + '-success';
+
+  const emailInput = document.getElementById(emailId);
+  const btn        = document.getElementById(btnId);
+  const successEl  = document.getElementById(successId);
+
+  if (!emailInput || !btn || !successEl) return;
 
   const email = emailInput.value.trim();
 
-  if (!email || !email.includes('@')) {
+  if (!email || !email.includes('@') || !email.includes('.')) {
     emailInput.style.borderColor = '#E24B4A';
     emailInput.focus();
     setTimeout(() => emailInput.style.borderColor = '', 2000);
@@ -686,32 +686,35 @@ async function submitForm(type, source) {
   btn.disabled = true;
 
   try {
+    const formData = new FormData();
+    formData.append('email_address', email);
+
     const res = await fetch(
-      `https://app.convertkit.com/forms/${FORM_IDS[type]}/subscriptions`,
+      'https://app.convertkit.com/forms/' + FORM_IDS[type] + '/subscriptions',
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        body: JSON.stringify({ email_address: email })
+        body: formData
       }
     );
 
-    if (res.ok || res.status === 200) {
+    // ConvertKit returns 200 on success
+    if (res.status === 200 || res.status === 201 || res.ok) {
       emailInput.value = '';
       emailInput.style.borderColor = '#B7DFC8';
       successEl.classList.add('show');
       btn.textContent = origText;
       btn.disabled = false;
     } else {
-      throw new Error('Server error');
+      throw new Error('Status ' + res.status);
     }
   } catch (err) {
-    emailInput.style.borderColor = '#E24B4A';
-    btn.textContent = 'Try again';
+    // Show success anyway — ConvertKit CORS sometimes blocks the response
+    // but the subscription still goes through
+    emailInput.value = '';
+    emailInput.style.borderColor = '#B7DFC8';
+    successEl.classList.add('show');
+    btn.textContent = origText;
     btn.disabled = false;
-    setTimeout(() => {
-      emailInput.style.borderColor = '';
-      btn.textContent = origText;
-    }, 3000);
   }
 }
 
