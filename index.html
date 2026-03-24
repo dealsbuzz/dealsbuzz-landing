@@ -685,11 +685,17 @@ function submitForm(type, source) {
   btn.textContent = 'Submitting...';
   btn.disabled = true;
 
-  // Use a hidden form POST — most reliable way to submit to Kit
+  // Use hidden iframe POST — correct Kit endpoint
+  const iframeName = 'kit-iframe-' + type + '-' + Date.now();
+  const iframe = document.createElement('iframe');
+  iframe.name = iframeName;
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
   const form = document.createElement('form');
   form.method = 'POST';
-  form.action = 'https://app.convertkit.com/forms/' + FORM_IDS[type] + '/subscriptions';
-  form.target = 'kit-iframe-' + type;
+  form.action = 'https://app.kit.com/forms/' + FORM_IDS[type] + '/subscriptions';
+  form.target = iframeName;
   form.style.display = 'none';
 
   const emailField = document.createElement('input');
@@ -698,25 +704,17 @@ function submitForm(type, source) {
   emailField.value = email;
   form.appendChild(emailField);
 
-  // Hidden iframe to capture the response without redirecting the page
-  const iframe = document.createElement('iframe');
-  iframe.name = 'kit-iframe-' + type;
-  iframe.style.display = 'none';
-  document.body.appendChild(iframe);
   document.body.appendChild(form);
 
   iframe.onload = function() {
-    // Submission complete
     emailInput.value = '';
     emailInput.style.borderColor = '#B7DFC8';
     successEl.classList.add('show');
     btn.textContent = origText;
     btn.disabled = false;
-    // Clean up
     setTimeout(() => {
-      document.body.removeChild(form);
-      document.body.removeChild(iframe);
-    }, 1000);
+      try { document.body.removeChild(form); document.body.removeChild(iframe); } catch(e) {}
+    }, 2000);
   };
 
   form.submit();
